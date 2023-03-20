@@ -29,37 +29,54 @@
     return 2;
  }
 
- const game=()=>{
-     let playerScore=0;
-     let computerScore=0;
+ let playerScore=0;
+ let computerScore=0;
+ 
+ let bod=document.querySelector("body");
 
-     for(index=0;index===5;index++){
+ let scoreLine=document.getElementById("score");
 
-        let ComputerChoice=getComputerChoice();
-        let PlayerChoice=prompt("your choice: ");
-        let result=playRound(PlayerChoice,ComputerChoice);
+let buttons=document.querySelectorAll("button");
 
-        if(result===1){
-            playerScore +=1;
-            console.log("won")
-        }
-        else if(result===2){
-            console.log("lost")
-            computerScore +=1;
+for(let button of buttons){ 
+ button.addEventListener("click",(e)=>{
+    console.log("called");
+
+    let playerSelect=e.target.innerText;
+
+    let computerSelect=getComputerChoice();
+
+    let result=playRound(playerSelect,computerSelect);
+    
+    if(result===1){
+        playerScore +=1;
+    }
+    if(result===2){
+        computerScore +=1;
+    }
+
+    let res=checkWinner()
+    scoreLine.innerText= "player: "+playerScore+" computer: "+computerScore;
+    if(res.length>1){
+        scoreLine.innerText="player: "+playerScore+" computer: "+computerScore+" "+res;
+    }
+    bod.appendChild(scoreLine);
+
+})
+};
+
+const checkWinner=()=>{
+    let text="";
+    console.log(playerScore,computerScore);
+    if(playerScore>4||computerScore>4){
+        if(playerScore>computerScore){
+            return "you win"
         }
         else{
-            console.log("tie game");
+            return "you lose"
         }
-     }
-     if(playerScore > computerScore){
-        return "you won you: "+playerScore+" computer: "+computerScore;
-     }
-     else if(playerScore < computerScore){
-        return "you lost you: "+playerScore+" computer: "+computerScore;
-     }
-     return "tie game";
- }
-
- console.log(game());
+    }
+    return text;
+}
 
  
